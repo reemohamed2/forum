@@ -1,95 +1,63 @@
-Forum Web Application
-Project Description
-This project consists of building a web-based forum that facilitates user communication, post categorization, like/dislike functionality, and post filtering. It leverages SQLite for database management, implements user authentication, and supports a Dockerized environment for streamlined deployment.
+# **Forum Web Application**
 
-Features
-1. User Authentication
-User Registration
-Users must provide an email, username, and password.
-The system validates if the email is unique.
-Password encryption is implemented using bcrypt (Bonus).
-Login System
-Users log in with their email and password.
-Sessions are managed using cookies, which include an expiration date.
-Users can have only one active session at a time.
-2. Posts and Comments
-Creating Posts
+## **Project Description**
+This project consists of building a **web-based forum** that facilitates:
+- **User communication**.
+- **Post categorization**.
+- **Like/dislike functionality**.
+- **Post filtering**.
 
-Registered users can create posts.
-Posts can be tagged with one or more categories.
-Categories help organize the forum into subforums.
-Creating Comments
-
-Registered users can comment on posts.
-Comments are displayed below their respective posts.
-Viewing Content
-
-All users (registered or not) can view posts and comments.
-3. Likes and Dislikes
-Registered users can like or dislike posts and comments.
-The total number of likes and dislikes is visible to everyone.
-4. Filters
-Users can filter posts by:
-Categories: View posts within specific subforums.
-Created Posts: View posts made by the logged-in user (for registered users only).
-Liked Posts: View posts liked by the logged-in user (for registered users only).
-5. Error Handling
-Proper HTTP status codes and error messages are returned for:
-Invalid user inputs.
-Database connection failures.
-Any unexpected se# **Forum Web Application**
-
-## **Project Overview**
-This project is a **web-based forum** built with Go and SQLite. It provides functionalities for user communication, post categorization, interactions through likes and dislikes, and post filtering. The application is designed for simplicity, performance, and Dockerized deployment.
+It leverages **SQLite** for database management, implements **user authentication**, and supports a **Dockerized environment** for streamlined deployment.
 
 ---
 
 ## **Features**
 
 ### **1. User Authentication**
-- **Registration**:
-  - Users must provide:
-    - **Email** (must be unique).
-    - **Username**.
-    - **Password**.
-  - Passwords are securely stored using **bcrypt** (*Bonus*).
 
-- **Login**:
-  - Users log in with their **email and password**.
-  - Sessions are managed via **cookies**, which include:
-    - A **unique session ID**.
-    - An **expiration date**.
-  - Only one active session per user is allowed.
+#### **User Registration**
+- Users must provide:
+  - **Email** (must be unique).
+  - **Username**.
+  - **Password**.
+- Password encryption is implemented using **bcrypt** (*Bonus*).
+
+#### **Login System**
+- Users log in with their **email and password**.
+- Sessions are managed using **cookies**, which include:
+  - A **unique session ID**.
+  - An **expiration date**.
+- Users can have only **one active session** at a time.
 
 ---
 
 ### **2. Posts and Comments**
-- **Creating Posts**:
-  - Registered users can **create posts**.
-  - Posts can include **one or more categories** for easy organization.
 
-- **Adding Comments**:
-  - Registered users can **comment on posts**.
-  - Comments are displayed below their respective posts.
+#### **Creating Posts**
+- Registered users can **create posts**.
+- Posts can be tagged with **one or more categories** for better organization.
 
-- **Viewing Content**:
-  - Posts and comments are **publicly visible**, even to non-registered users.
+#### **Creating Comments**
+- Registered users can **comment on posts**.
+- Comments are displayed **below their respective posts**.
+
+#### **Viewing Content**
+- All users (**registered or not**) can **view posts and comments**.
 
 ---
 
 ### **3. Likes and Dislikes**
-- Only **registered users** can interact with content.
-- Users can:
+- **Registered users** can:
   - **Like** or **dislike** posts and comments.
-  - See the **total likes/dislikes** for each item.
+- The **total number of likes and dislikes** is visible to everyone.
 
 ---
 
 ### **4. Filters**
-Registered users can filter posts by:
-1. **Categories**: View posts in specific subforums.
-2. **Created Posts**: View posts they authored.
-3. **Liked Posts**: View posts they liked.
+Users can filter posts by:
+1. **Categories**: View posts within specific subforums.
+2. **Created Posts**: View posts made by the logged-in user (**for registered users only**).
+3. **Liked Posts**: View posts liked by the logged-in user (**for registered users only**).
 
 ---
 
@@ -98,22 +66,23 @@ The application handles errors gracefully with:
 - **User Input Validation**:
   - Example: Duplicate email returns a **400 Bad Request**.
 - **Database Errors**:
-  - Issues like connection failures are logged and handled.
+  - Issues like connection failures are logged and handled appropriately.
 - **Unexpected Errors**:
   - A **500 Internal Server Error** is returned with a descriptive message.
 
 ---
 
 ## **SQLite Integration**
-- The database includes the following tables:
-  - **Users**: Stores email, username, and hashed passwords.
-  - **Posts**: Includes title, content, categories, and author.
-  - **Comments**: Tracks content, associated post, and author.
-  - **Likes/Dislikes**: Logs user interactions with posts and comments.
-- Example SQL Queries:
-  - **CREATE**: Create the necessary tables.
-  - **INSERT**: Add users, posts, comments, likes/dislikes.
-  - **SELECT**: Retrieve posts, comments, and user interactions.
+The database includes the following tables:
+- **Users**: Stores email, username, and hashed passwords.
+- **Posts**: Includes title, content, categories, and author.
+- **Comments**: Tracks content, associated post, and author.
+- **Likes/Dislikes**: Logs user interactions with posts and comments.
+
+### **Example SQL Queries**
+- **CREATE**: Create the necessary tables.
+- **INSERT**: Add users, posts, comments, likes/dislikes.
+- **SELECT**: Retrieve posts, comments, and user interactions.
 
 ---
 
@@ -123,9 +92,3 @@ The application handles errors gracefully with:
 To create a Docker image for this application, run:
 ```bash
 docker build -t forum-web-app .
-rver issues.
-
-
-To create the image from the docker file use the command : docker build -t "name" .
-
-to run the image use the command : docker run -p 8080:8080 (container Id)
