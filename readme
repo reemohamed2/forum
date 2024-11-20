@@ -1,3 +1,45 @@
+Forum Web Application
+Project Description
+This project consists of building a web-based forum that facilitates user communication, post categorization, like/dislike functionality, and post filtering. It leverages SQLite for database management, implements user authentication, and supports a Dockerized environment for streamlined deployment.
+
+Features
+1. User Authentication
+User Registration
+Users must provide an email, username, and password.
+The system validates if the email is unique.
+Password encryption is implemented using bcrypt (Bonus).
+Login System
+Users log in with their email and password.
+Sessions are managed using cookies, which include an expiration date.
+Users can have only one active session at a time.
+2. Posts and Comments
+Creating Posts
+
+Registered users can create posts.
+Posts can be tagged with one or more categories.
+Categories help organize the forum into subforums.
+Creating Comments
+
+Registered users can comment on posts.
+Comments are displayed below their respective posts.
+Viewing Content
+
+All users (registered or not) can view posts and comments.
+3. Likes and Dislikes
+Registered users can like or dislike posts and comments.
+The total number of likes and dislikes is visible to everyone.
+4. Filters
+Users can filter posts by:
+Categories: View posts within specific subforums.
+Created Posts: View posts made by the logged-in user (for registered users only).
+Liked Posts: View posts liked by the logged-in user (for registered users only).
+5. Error Handling
+Proper HTTP status codes and error messages are returned for:
+Invalid user inputs.
+Database connection failures.
+Any unexpected server issues.
+
+
 To create the image from the docker file use the command : docker build -t "name" .
 
 to run the image use the command : docker run -p 8080:8080 (container Id)
