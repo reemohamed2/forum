@@ -37,7 +37,93 @@ Liked Posts: View posts liked by the logged-in user (for registered users only).
 Proper HTTP status codes and error messages are returned for:
 Invalid user inputs.
 Database connection failures.
-Any unexpected server issues.
+Any unexpected se# **Forum Web Application**
+
+## **Project Overview**
+This project is a **web-based forum** built with Go and SQLite. It provides functionalities for user communication, post categorization, interactions through likes and dislikes, and post filtering. The application is designed for simplicity, performance, and Dockerized deployment.
+
+---
+
+## **Features**
+
+### **1. User Authentication**
+- **Registration**:
+  - Users must provide:
+    - **Email** (must be unique).
+    - **Username**.
+    - **Password**.
+  - Passwords are securely stored using **bcrypt** (*Bonus*).
+
+- **Login**:
+  - Users log in with their **email and password**.
+  - Sessions are managed via **cookies**, which include:
+    - A **unique session ID**.
+    - An **expiration date**.
+  - Only one active session per user is allowed.
+
+---
+
+### **2. Posts and Comments**
+- **Creating Posts**:
+  - Registered users can **create posts**.
+  - Posts can include **one or more categories** for easy organization.
+
+- **Adding Comments**:
+  - Registered users can **comment on posts**.
+  - Comments are displayed below their respective posts.
+
+- **Viewing Content**:
+  - Posts and comments are **publicly visible**, even to non-registered users.
+
+---
+
+### **3. Likes and Dislikes**
+- Only **registered users** can interact with content.
+- Users can:
+  - **Like** or **dislike** posts and comments.
+  - See the **total likes/dislikes** for each item.
+
+---
+
+### **4. Filters**
+Registered users can filter posts by:
+1. **Categories**: View posts in specific subforums.
+2. **Created Posts**: View posts they authored.
+3. **Liked Posts**: View posts they liked.
+
+---
+
+### **5. Error Handling**
+The application handles errors gracefully with:
+- **User Input Validation**:
+  - Example: Duplicate email returns a **400 Bad Request**.
+- **Database Errors**:
+  - Issues like connection failures are logged and handled.
+- **Unexpected Errors**:
+  - A **500 Internal Server Error** is returned with a descriptive message.
+
+---
+
+## **SQLite Integration**
+- The database includes the following tables:
+  - **Users**: Stores email, username, and hashed passwords.
+  - **Posts**: Includes title, content, categories, and author.
+  - **Comments**: Tracks content, associated post, and author.
+  - **Likes/Dislikes**: Logs user interactions with posts and comments.
+- Example SQL Queries:
+  - **CREATE**: Create the necessary tables.
+  - **INSERT**: Add users, posts, comments, likes/dislikes.
+  - **SELECT**: Retrieve posts, comments, and user interactions.
+
+---
+
+## **Docker Setup**
+
+### **1. Building the Docker Image**
+To create a Docker image for this application, run:
+```bash
+docker build -t forum-web-app .
+rver issues.
 
 
 To create the image from the docker file use the command : docker build -t "name" .
