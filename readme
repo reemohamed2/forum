@@ -1,0 +1,3 @@
+To create the image from the docker file use the command : docker build -t "name" .
+
+to run the image use the command : docker run -p 8080:8080 (container Id)

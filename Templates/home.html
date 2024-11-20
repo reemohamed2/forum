@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatChat</title>
+    <link rel="icon" href="/img/cat.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/post.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="top"></div>
+        <div class="logo">
+            <i class="bx bxs-cat"></i>
+            <span>catchat</span>
+        </div>
+        <i class="bx bx-menu" id="btn"></i>
+        <div class="user"> </div>
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="bx bxs-home-heart"></i>
+                    <span class="nav-item">home</span>
+                </a>
+                <span class="tooltip">home</span>
+            </li>
+            <li>
+                <a href="/category">
+                    <i class="bx bxs-category-alt"></i>
+                    <span class="nav-item">category</span>
+                </a>
+                <span class="tooltip">category</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1><i class="bx bxs-cat"></i> CatChat!</h1>
+            {{if eq .CurrentUser.Gender "male"}}
+            <div class="dropdown">
+                <h5>{{.CurrentUser.Username}} <img id="pfp" class="profile-pic" src="img/male.webp" alt="male pfp"></h5>
+                <i class="bx bx-chevron-down"></i>
+                <div class="dropdown-content">
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+            {{else if eq .CurrentUser.Gender "female"}}
+            <div class="dropdown">
+                <h5>{{.CurrentUser.Username}} <img id="pfp" class="profile-pic" src="img/female.png" alt="female pfp">
+                </h5>
+                <i class="bx bx-chevron-down"></i>
+                <div class="dropdown-content">
+                    <a href="/profile">Profile</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </div>
+            {{else}}
+            <h5>Interested? <a href="login" id="register">Login!</a></h5>
+            {{end}}
+        </div>
+        <h1>Posts</h1>
+        <div class="postsContiner">
+            {{if .Posts}}
+            <ul>
+                {{range .Posts}}
+                <div class="post">
+                    <div class="postUser">
+                        {{if eq .Gender "male"}}
+                        <div class="profile-info">
+                            <img id="pfp" class="profile-pic" src="img/male.webp" alt="male pfp">
+                            <p class="username">{{.Username}}</p>
+                        </div>
+                        {{else if eq .Gender "female"}}
+                        <div class="profile-info">
+                        <img id="pfp" class="profile-pic" src="img/female.png" alt="female pfp">
+                        <p class="username">{{.Username}}</p>
+                    </div>
+                        {{end}}
+                    </div>
+                    <div class="postTitle">
+                        <h3><strong>{{.Title}}</strong></h3>
+                    </div>
+                    <div class="categoryContainer">
+                        {{range .Category}}
+                        <div class="category">
+                            <h7>{{.}}</h7>
+                        </div>
+                        {{end}}
+                    </div>
+                    <p class="content">{{.Content}}</p>
+                    <p class="postTime">{{.CreatedAt}}</p>
+                    <div class="postFooter">
+                        <div class="actions">
+                            {{if eq $.CurrentUser.Username "guest"}}
+                            <form action="/login" method="post">
+                                <button type="submit" id="like" class="like-button"><i class='bx bx-like'></i></button>
+                            </form>
+                            <span>{{.Like}}</span>
+
+                            <form action="/login" method="post">
+                                <button type="submit" id="dislike" class="like-button"><i
+                                        class='bx bx-dislike'></i></button>
+                            </form>
+                            <span>{{.Dislike}}</span>
+
+                            {{else}}
+
+                            <form id="like-form-{{.ID}}" method="post" style="display:inline;">
+                                <input type="hidden" name="postID" value="{{.ID}}">
+                                <button type="button" id="like-{{.ID}}" class="like-button" onclick="likePost('{{.ID}}')">
+                                    {{ if .Likedbyuser }}
+                                    <i class='bx bxs-like'></i>
+                                    {{ else }}
+                                    <i class='bx bx-like'></i>
+                                    {{end}}
+                                </button>
+                            </form>
+                            <span id="like-count-{{.ID}}">{{.Like}}</span>                            
+                            <form id="dislike-form-{{.ID}}" method="post" style="display:inline;">
+                                <input type="hidden" name="postID" value="{{.ID}}">
+                                <button type="button" id="dislike-{{.ID}}" class="like-button" onclick="dislikePost('{{.ID}}')">
+                                    {{ if .Dislikedbyuser }}
+                                    <i class='bx bxs-dislike'></i>
+                                    {{ else }}
+                                    <i class='bx bx-dislike'></i>
+                                    {{end}}
+                                </button>
+                            </form>
+                            <span id="dislike-count-{{.ID}}">{{.Dislike}}</span>
+                            
+
+                            {{end}}
+                            <form action="/comment" method="get" style="display:inline;">
+                                <input type="hidden" name="postID" value="{{.ID}}">
+                                <button type="submit" class="like-button"><i class='bx bx-chat'></i></button>
+                            </form>
+                            <span>{{.Comment}}</span>
+                        </div>
+                        <!-- Hidden comment form
+                        <div id="comment-form-{{.ID}}" class="comment-form" style="display: none;">
+                            <form action="/comment" method="post">
+                                <input type="hidden" name="postID" value="{{.ID}}">
+                                <input type="text" name="commentContent" placeholder="Write a comment..." required>
+                                <button type="submit" class="comment-button">Submit</button>
+                            </form>
+                        </div> -->
+                    </div>
+                </div>
+                {{end}}
+            </ul>
+            {{else}}
+            <p> There are no posts found.. </p>
+            {{end}}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {{if or (eq .CurrentUser.Gender "male") (eq .CurrentUser.Gender "female")}}
+    <footer>
+        <div class="newpost">
+            <i class="bx bxs-add-to-queue"></i>
+            <form id="postForm" action="/createpost" method="post">
+                <label for="title">title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" rows="10" required></textarea>
+                <div id="category">
+                    <p>Category:</p>
+                    <label><input type="checkbox" name="category" value="Sport"> Sport</label>
+                    <label><input type="checkbox" name="category" value="Gaming"> Gaming</label>
+                    <label><input type="checkbox" name="category" value="Art"> Art</label>
+                    <label><input type="checkbox" name="category" value="Education"> Education</label>
+                    <label><input type="checkbox" name="category" value="Food"> Food</label>
+                </div>
+                <button type="submit" id="submitPost">Create Post</button>
+            </form>
+        </div>
+    </footer>
+    {{end}}
+
+    <script src="/static/javascript/sidebar.js"></script>
+    <script src="/static/javascript/dropdown.js"></script>
+    <script src="/static/javascript/createpost.js"></script>
+    <script src="/static/javascript/comment.js"></script>
+    <script src="/static/javascript/likes.js"></script>
+
+
+    <!--<script>
+        const like = document.getElementById('like');
+        const dislike = document.getElementById('dislike');
+
+        function selectButton(button) {
+            if (like) like.classList.remove('selected');
+            if (dislike) dislike.classList.remove('selected');
+
+            button.classList.add('selected');
+        }
+
+        if (like) like.addEventListener('click', () => selectButton(like));
+        if (dislike) dislike.addEventListener('click', () => selectButton(dislike));
+    </script>-->
+    </script>
+
+    <!--  nvm this script
+    <script> 
+         document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.postFooter form[action="/comment"]').forEach(form => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const postID = form.querySelector('input[name="postID"]').value;
+                window.location.href = `/comment?postID=${postID}`;
+            });
+        });
+    });
+    </script> -->
+</body>
+
+</html>
